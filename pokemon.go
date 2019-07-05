@@ -12,6 +12,11 @@ import (
 	"encoding/json"
 )
 
+const (
+	apiUrlBase string = "https://pokeapi.co/api/v2/pokemon/"
+	wikiUrlBase string = "https://bulbapedia.bulbagarden.net/wiki/"
+)
+
 type pokemon struct {
     Name string
 }
@@ -35,6 +40,6 @@ func main() {
 	p := pokemon{}
 	json.Unmarshal([]byte(body), &p)
 
-	n := "Today’s Pokémon is: " + strings.Title(p.Name)
+	n := "Today’s Pokémon is: " + strings.Title(p.Name) + "\nLink: " + wikiUrlBase + p.Name
 	fmt.Println(n)
 }
