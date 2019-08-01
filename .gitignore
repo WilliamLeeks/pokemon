@@ -2,3 +2,6 @@
 *.exe
 pokemon
 pokemon.exe
+
+# Pokelog
+pokelog.txt
