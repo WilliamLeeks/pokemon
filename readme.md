@@ -1,3 +1,8 @@
-# Pokémon of the Day
+# Pokémon CLI
 
-Learning Go…
+Simple Pokémon CLI tool.
+
+## Commands
+
+- `potd` Pokémon of the Day.
+- `help` Help information.
