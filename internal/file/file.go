@@ -12,7 +12,6 @@ import (
 func ReadLog(path string) ([]int, error) {
 	var ids []int
 
-	//f, err := os.Open(path)
 	f, err := os.OpenFile(path, os.O_CREATE|os.O_APPEND|os.O_RDONLY, 0644)
 	if err != nil {
 		return ids, err
