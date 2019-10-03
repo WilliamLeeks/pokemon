@@ -39,8 +39,9 @@ func Run() {
 		r = rand.Intn(807)
 
 		if contains(r, ids) {
-			break
+			continue
 		}
+		break
 	}
 
 	p := api.GetPokemon(r)
@@ -48,6 +49,8 @@ func Run() {
 	URL := fmt.Sprintf(wikiURL, p.Name)
 
 	fmt.Printf("Today’s Pokémon is: %s\nLink: %s\n", strings.Title(p.Name), URL)
+
+	file.WriteLog(path, r)
 	os.Exit(0)
 }
 
