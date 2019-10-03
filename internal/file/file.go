@@ -5,13 +5,15 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 )
 
 // ReadLog ...
 func ReadLog(path string) ([]int, error) {
 	var ids []int
 
-	f, err := os.Open(path)
+	//f, err := os.Open(path)
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_APPEND|os.O_RDONLY, 0644)
 	if err != nil {
 		return ids, err
 	}
@@ -19,7 +21,8 @@ func ReadLog(path string) ([]int, error) {
 
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
-		id, err := strconv.Atoi(scanner.Text())
+		line := strings.Split(scanner.Text(), ",")
+		id, err := strconv.Atoi(line[1])
 		if err != nil {
 			continue
 		}
@@ -34,9 +37,7 @@ func ReadLog(path string) ([]int, error) {
 }
 
 // WriteLog ...
-func WriteLog(path string, id int) error {
-	line := strconv.Itoa(id) + "\n"
-
+func WriteLog(path, line string) error {
 	f, err := os.OpenFile(path, os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
 		return err

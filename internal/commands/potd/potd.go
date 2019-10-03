@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 
@@ -50,7 +51,9 @@ func Run() {
 
 	fmt.Printf("Today’s Pokémon is: %s\nLink: %s\n", strings.Title(p.Name), URL)
 
-	file.WriteLog(path, r)
+	line := strconv.Itoa(r) + "," + strings.Title(p.Name) + "\n"
+
+	file.WriteLog(path, line)
 	os.Exit(0)
 }
 
