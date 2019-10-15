@@ -5,44 +5,51 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 )
 
 // ReadLog ...
 func ReadLog(path string) ([]int, error) {
 	var ids []int
 
-	file, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0777)
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_APPEND|os.O_RDONLY, 0644)
 	if err != nil {
 		return ids, err
 	}
-	defer file.Close()
+	defer f.Close()
 
-	scanner := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
-		s := scanner.Text()
-		id, err := strconv.Atoi(s)
-		if err == nil {
-			ids = append(ids, id)
+		line := strings.Split(scanner.Text(), ",")
+		id, err := strconv.Atoi(line[1])
+		if err != nil {
+			continue
 		}
+		ids = append(ids, id)
 	}
 
 	if err := scanner.Err(); err != nil {
-		return ids, err
+		log.Fatal(err)
 	}
 
 	return ids, nil
 }
 
 // WriteLog ...
-func WriteLog(path, data string) error {
-	f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0777)
+func WriteLog(path, line string) error {
+	f, err := os.OpenFile(path, os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
 		return err
 	}
-	if _, err := f.Write([]byte(data)); err != nil {
+
+	_, err = f.WriteString(line)
+	if err != nil {
+		f.Close()
 		return err
 	}
-	if err := f.Close(); err != nil {
+
+	err = f.Close()
+	if err != nil {
 		return err
 	}
 
