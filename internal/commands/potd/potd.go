@@ -2,6 +2,7 @@ package potd
 
 import (
 	"fmt"
+	"log"
 	"math/rand"
 	"os"
 	"path/filepath"
@@ -53,7 +54,11 @@ func Run() {
 
 	line := strconv.Itoa(r) + "," + strings.Title(p.Name) + "\n"
 
-	file.WriteLog(path, line)
+	err = file.WriteLog(path, line)
+	if err != nil {
+		log.Fatalf("Error writing to log: %s\n", err)
+	}
+
 	os.Exit(0)
 }
 
